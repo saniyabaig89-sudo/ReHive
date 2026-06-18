@@ -114,21 +114,3 @@ export async function estimatePrice(itemName, condition) {
     return { suggestedPrice: 0, range: "N/A" };
   }
 }
-// --- 5. CIRCULAR ADVICE ENGINE (Naya Feature) ---
-export async function getCircularAdvice(itemName) {
-  try {
-    const response = await fetch(getUrl(), {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: `Item: "${itemName}". Aap ek eco-friendly circular economy advisor hain. Batayein ki is item ke liye 'Rent', 'Repair', 'Reuse' ya 'Donate' mein se sabse best kya hai? Sirf JSON format mein den: {"advice": "...", "reason": "..."}` }] }]
-      })
-    });
-    const data = await response.json();
-    // Gemini se mila jawab JSON mein badalna
-    return JSON.parse(data.candidates[0].content.parts[0].text);
-  } catch (error) {
-    console.error("Advice Error:", error);
-    return { advice: "Donate", reason: "Is item ka reuse best hai." };
-  }
-}
